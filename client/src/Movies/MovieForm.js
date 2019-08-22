@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from "axios";
 
 export default class MovieForm extends Component {
     constructor(props) {
@@ -13,16 +14,41 @@ export default class MovieForm extends Component {
         };
     };
 
+    componentDidMount () {
+        const id = this.props.match.params.id
+
+        axios
+            .get(`http://localhost:5000/api/movies/${id}`)
+            .then(res => {
+                this.setState({ updatedMovie: res.data })
+                console.log(res.data)
+            })
+            .catch(err => console.log(err.response));
+    }
+
+    //this.props.match.params.id
+
     handleChange = event => {
+        console.log(event.target.name)
+        console.log(event.target.value)
+        console.log(this.state.updatedMovie)
         this.setState({
-            ...this.state.updatedMovie,
-            [event.target.name]: event.target.value
+            updatedMovie:{
+                ...this.state.updatedMovie,
+                [event.target.name]: event.target.value
+            }
         })
     };
 
     handleSubmit = event => {
         event.preventDefault();
-
+        axios
+            .put(`http://localhost:5000/api/movies/${this.props.match.params.id}`, this.state.updatedMovie)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => console.log(err.response))
+       this.props.history.push("/");
     }
 
     render() {
@@ -60,6 +86,6 @@ export default class MovieForm extends Component {
                 />
                 <button type='submit'>Update</button>
             </form>
-        )
+        );
     }
 }

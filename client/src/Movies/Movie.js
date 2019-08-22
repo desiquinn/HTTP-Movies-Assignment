@@ -1,9 +1,8 @@
 import React from "react";
 import axios from "axios";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import MovieCard from "./MovieCard";
-import MovieForm from "./MovieForm";
 
 
 export default class Movie extends React.Component {
@@ -47,17 +46,13 @@ export default class Movie extends React.Component {
         <div className="save-button" onClick={this.saveMovie}>
           Save
         </div>
+
         <Link to={`/update-movie/${this.state.movie.id}`}>
           <div className="update-button">
             Update
           </div>
         </Link>
-        <Route 
-          path="/update-movie/:id" 
-          render={props => {
-            return <MovieForm {...props} />;
-          }}
-        />
+
       </div>
     );
   }
