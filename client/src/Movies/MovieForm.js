@@ -46,9 +46,9 @@ export default class MovieForm extends Component {
             .put(`http://localhost:5000/api/movies/${this.props.match.params.id}`, this.state.updatedMovie)
             .then(res => {
                 console.log(res.data)
+                this.props.history.push("/");
             })
             .catch(err => console.log(err.response))
-       this.props.history.push("/");
     }
 
     render() {
